@@ -1,0 +1,39 @@
+.key-list {
+  list-style-type: none;
+  padding-left: .75rem;
+}
+.connection-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.key-list-item {
+  border: 1px solid transparent;
+  padding-left: .75rem;
+}
+.key-list-item,
+.key-list-item:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+.key-list-item:hover {
+  border: 1px solid #aaaaaa;
+}
+.key-list-item .fa-folder {
+  color: #ffd700;
+}
+.key-list-item-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.key-list-item .show-only-on-hover {
+  visibility: hidden;
+}
+.key-list-item:hover .show-only-on-hover {
+  visibility: visible;
+}
+.fa-circle-btn {
+  padding-left: .15rem;
+  padding-right: .15rem;
+}

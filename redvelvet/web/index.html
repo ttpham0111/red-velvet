@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="shortcut icon" type="image/png" href="public/favicon.png" />
+
+    <!-- Vue Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap@4.1.1/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@2.0.0-rc.11/dist/bootstrap-vue.css" />
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+          integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+          crossorigin="anonymous">
+
+    <!-- Custom -->
+    <link type="text/css" rel="stylesheet" href="public/main.css" />
+
+    <!-- Components -->
+    <link type="text/css" rel="stylesheet" href="public/components/key-view/key-view.component.css" />
+    <link type="text/css" rel="stylesheet" href="public/components/value-view/value-view.component.css" />
+
+    <title>Red Velvet</title>
+  </head>
+  <body class="h-100">
+    <div id="app" class="h-100">
+      <r-confirm ref="confirm"></r-confirm>
+
+      <r-app class="h-100"></r-app>
+    </div>
+
+    <!-- Vue -->
+    <script src="//cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+    <!-- Vue Bootstrap -->
+    <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@2.0.0-rc.11/dist/bootstrap-vue.js"></script>
+
+    <!-- Vue Toggle Button -->
+    <script src="//cdn.jsdelivr.net/npm/vue-js-toggle-button@1.2.3/dist/index.min.js"></script>
+
+    <!-- Axios -->
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- Services -->
+    <script src="public/services/redis.service.js"></script>
+    <script src="public/services/form.service.js"></script>
+
+    <!-- Plugins -->
+    <script src="public/plugins/confirm.plugin.js"></script>
+
+    <!-- Mixins -->
+    <script src="public/mixins/confirm-observers.mixin.js"></script>
+
+    <script src="public/components/key-view/key-list-item.mixin.js"></script>
+
+    <!-- Components -->
+    <script src="public/components/app.component.js"></script>
+    <script src="public/components/navbar/navbar.component.js"></script>
+
+    <script src="public/components/common/toolbar.component.js"></script>
+    <script src="public/components/common/confirm.component.js"></script>
+
+    <script src="public/components/forms/search.component.js"></script>
+    <script src="public/components/forms/key.component.js"></script>
+
+    <script src="public/components/key-view/key-view.component.js"></script>
+    <script src="public/components/key-view/key-list.component.js"></script>
+    <script src="public/components/key-view/key-list-item.component.js"></script>
+
+    <script src="public/components/value-view/value-view.component.js"></script>
+    <script src="public/components/value-view/string-view.component.js"></script>
+    <script src="public/components/value-view/list-view.component.js"></script>
+    <script src="public/components/value-view/set-view.component.js"></script>
+    <script src="public/components/value-view/zset-view.component.js"></script>
+    <script src="public/components/value-view/hash-view.component.js"></script>
+
+    <script>
+      Vue.use(window['vue-js-toggle-button'].default);  // TODO: Fix this hacky import
+      new Vue({
+        el: '#app',
+
+        mounted: function() {
+          Vue.use(new Confirm(this.$refs.confirm));
+        }
+      });
+    </script>
+  </body>
+</html>
