@@ -3,7 +3,6 @@ from setuptools import setup, find_packages
 setup(
     name='red-velvet',
     version='0.0.1',
-    author='Tuan Pham',
     description='Redis Viewer Web UI',
     url='https://github.com/ttpham0111/red-velvet',
 
