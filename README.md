@@ -48,3 +48,4 @@ docker run -d \
 - Server side paging/sorting
 - Max key limit
 - Create binary values
+- Add tests

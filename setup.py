@@ -8,8 +8,8 @@ setup(
     url='https://github.com/ttpham0111/red-velvet',
 
     classifiers=(
-        'Environment :: Web Environment',
         'Development Status :: 3 - Alpha',
+        'Environment :: Web Environment',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
