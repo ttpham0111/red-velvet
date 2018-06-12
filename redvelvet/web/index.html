@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-md-100">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,14 +21,15 @@
     <!-- Components -->
     <link type="text/css" rel="stylesheet" href="public/components/key-view/key-view.component.css" />
     <link type="text/css" rel="stylesheet" href="public/components/value-view/value-view.component.css" />
+    <link type="text/css" rel="stylesheet" href="public/components/command-line-view/command-line-view.component.css" />
 
     <title>Red Velvet</title>
   </head>
-  <body class="h-100">
-    <div id="app" class="h-100">
+  <body class="h-md-100">
+    <div id="app" class="h-md-100">
       <r-confirm ref="confirm"></r-confirm>
 
-      <r-app class="h-100"></r-app>
+      <r-app class="h-md-100"></r-app>
     </div>
 
     <!-- Vue -->
@@ -36,7 +37,7 @@
 
     <!-- Vue Bootstrap -->
     <script src="//unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
-    <script src="//unpkg.com/bootstrap-vue@2.0.0-rc.11/dist/bootstrap-vue.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@2.0.0-rc.11/dist/bootstrap-vue.min.js"></script>
 
     <!-- Vue Toggle Button -->
     <script src="//cdn.jsdelivr.net/npm/vue-js-toggle-button@1.2.3/dist/index.min.js"></script>
@@ -76,6 +77,12 @@
     <script src="public/components/value-view/set-view.component.js"></script>
     <script src="public/components/value-view/zset-view.component.js"></script>
     <script src="public/components/value-view/hash-view.component.js"></script>
+
+    <script src="public/components/command-line-view/command.js"></script>
+    <script src="public/components/command-line-view/command-line-view.component.js"></script>
+    <script src="public/components/command-line-view/command-line.component.js"></script>
+    <script src="public/components/command-line-view/command-line-prompt.component.js"></script>
+    <script src="public/components/command-line-view/command-line-output.component.js"></script>
 
     <script>
       Vue.use(window['vue-js-toggle-button'].default);  // TODO: Fix this hacky import

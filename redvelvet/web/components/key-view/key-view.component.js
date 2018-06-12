@@ -3,7 +3,7 @@ Vue.component('r-key-view', {
     <div role="tablist">
       <r-key-list v-for="(connection, i) in sortedConnections" :key="connection.label"
                   :id="'key-list-' + i" :connection="connection"
-                  @connect="$emit('connect', connection.label)"
+                  @connect="$emit('connect', connection)"
                   @select="$emit('select', connection.label, $event)"
                   @delete="$emit('delete', connection.label, $event)"></r-key-list>
     </div>

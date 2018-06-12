@@ -1,8 +1,9 @@
 Vue.component('r-value-view', {
   template: `
-    <b-card no-body class="value-view border-0">
+    <b-card v-show="hasTabs" no-body class="value-view rounded-0">
       <b-tabs card small>
-        <b-tab v-for="(value, keyId, i) in loaded" :key="keyId" title-link-class="btn-danger pr-2">
+        <b-tab v-for="(value, keyId, i) in loaded" :key="keyId"
+               title-link-class="btn-danger pr-2">
           <template slot="title">
             <span>{{ keyId }}</span>
             <b-button-close class="pl-2" @click="$delete(loaded, keyId)"></b-button-close>
@@ -32,6 +33,10 @@ Vue.component('r-value-view', {
   computed: {
     KeyType: function() {
       return redisService.KeyType;
+    },
+
+    hasTabs: function() {
+      return Object.keys(this.loaded).length > 0;
     }
   },
 

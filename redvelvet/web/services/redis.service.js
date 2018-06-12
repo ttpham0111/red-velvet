@@ -8,9 +8,38 @@ class RedisService {
       SET: 'SET',
       ZSET: 'ZSET',
       HASH: 'HASH'
+    };
+
+    this.websocketBaseUrl = (location.protocol === 'https' ? 'wss' : 'ws') + '://' + location.host;
+    this.connections = {};
+  }
+
+  /**
+   * Web Sockets
+   */
+  connect(connectionLabel, onMessage) {
+    if (!this.connections.hasOwnProperty(connectionLabel)) {
+      const url = this.websocketBaseUrl + '/ws/' + connectionLabel + '/execute';
+      this.connections[connectionLabel] = new WebSocket(url);
+    }
+    this.connections[connectionLabel].onmessage = message => onMessage(JSON.parse(message.data));
+  }
+
+  disconnect(connectionLabel) {
+    if (this.connections.hasOwnProperty(connectionLabel)) {
+      this.connections[connectionLabel].close();
+      delete this.connections[connectionLabel];
     }
   }
 
+  execute(connectionLabel, command) {
+    if (!this.connections.hasOwnProperty(connectionLabel)) this.connect(connectionLabel);
+    this.connections[connectionLabel].send(command);
+  }
+
+  /**
+   * HTTP
+   */
   getConnections() {
     const url = '/api/connections';
     return this.$http.get(url)

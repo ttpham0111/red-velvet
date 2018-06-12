@@ -1,6 +1,20 @@
 from functools import partial
 
 
+def decode(value, _encoding='utf-8'):
+    try:
+        if isinstance(value, bytes):
+            return value.hex().upper() if _encoding == 'hex' else value.decode(_encoding)
+        elif isinstance(value, list):
+            return [decode(o, _encoding) for o in value]
+        elif isinstance(value, dict):
+            return {decode(k, _encoding): decode(v, _encoding) for k, v in value.items()}
+    except UnicodeDecodeError:
+        return decode(value, _encoding='hex')
+
+    return value
+
+
 def get_redis_get_command(redis, key_type):
     command = _REDIS_GET_COMMANDS[key_type]
     fn = getattr(redis, command)
@@ -78,6 +92,7 @@ REDIS_SET_COMMANDS = {
 }
 
 REDIS_ADD_COMMANDS = {
+    'STRING': redis_set,
     'LIST': redis_lpush,
     'SET': redis_sadd,
     'ZSET': redis_zadd,

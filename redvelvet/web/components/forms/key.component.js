@@ -30,7 +30,7 @@ Vue.component('r-key-form', {
       <template slot="modal-footer">
         <b-btn @click="cancel" variant="secondary">Cancel</b-btn>
         <b-btn @click="onSubmit" variant="danger">{{ okTitle }}</b-btn>
-        <b-btn v-show="mode === Mode.UPDATE_VALUE" @click="deleteValue" variant="danger">
+        <b-btn v-show="mode === Mode.UPDATE_OR_DELETE_VALUE" @click="deleteValue" variant="danger">
           <i class="fas fa-trash"></i>
         </b-btn>
       </template>
@@ -54,7 +54,8 @@ Vue.component('r-key-form', {
     const Mode = {
       CREATE_KEY: 0,
       ADD_VALUE: 1,
-      UPDATE_VALUE: 2
+      UPDATE_VALUE: 2,
+      UPDATE_OR_DELETE_VALUE: 3
     };
     return {
       Mode: Mode,
@@ -76,6 +77,7 @@ Vue.component('r-key-form', {
         case this.Mode.ADD_VALUE:
           return 'Add Value';
         case this.Mode.UPDATE_VALUE:
+        case this.Mode.UPDATE_OR_DELETE_VALUE:
           return 'Update Value';
       }
     },
@@ -87,6 +89,7 @@ Vue.component('r-key-form', {
         case this.Mode.ADD_VALUE:
           return 'Add Value';
         case this.Mode.UPDATE_VALUE:
+        case this.Mode.UPDATE_OR_DELETE_VALUE:
           return 'Update Value';
       }
     }

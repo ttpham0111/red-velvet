@@ -1,0 +1,11 @@
+.command-line {
+  cursor: text;
+  font-family: 'Consolas', 'Monaco', 'Bitstream Vera Sans Mono', monospace;
+  font-size: .85rem;
+  height: 15rem;
+}
+.command-line-prompt > input[type="text"] {
+  background-color: inherit;
+  border: none;
+  color: inherit;
+}

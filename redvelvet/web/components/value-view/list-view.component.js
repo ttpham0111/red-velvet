@@ -1,6 +1,4 @@
 Vue.component('r-value-list-view', {
-  extends: Vue.component('r-value-string-view'),
-
   template: `
     <div>
       <template v-if="value.value === null">Loading...</template>
@@ -11,7 +9,7 @@ Vue.component('r-value-list-view', {
                           :total-rows="totalRows" :per-page="perPage"></b-pagination>
           </b-col>
           <b-col lg="6" class="mb-2 d-flex align-items-end justify-content-lg-end">
-            <r-toolbar class="d-flex align-items-center" disable-terminal
+            <r-toolbar disable-terminal
                        :show-search="showSearch" @search="toggleSearch"
                        :auto-refresh="autoRefresh" @auto-refresh="toggleAutoRefresh"
                        @create="editValue(Mode.ADD_VALUE)" @refresh="$emit('refresh')"></r-toolbar>
@@ -21,22 +19,26 @@ Vue.component('r-value-list-view', {
         <r-search-form ref="valueSearch" v-show="showSearch" v-model="search"
                        class="mb-2 ml-lg-auto value-search-form"></r-search-form>
 
-        <b-table small fixed striped hover responsive bordered
+        <b-table small striped hover responsive bordered
                  thead-class="bg-danger text-light"
                  :items="filteredItems" :fields="fields"
                  :current-page="currentPage" :per-page="perPage"
                  :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
-                 @row-dblclicked="editValue(Mode.UPDATE_VALUE, $event)"></b-table>
+                 @row-dblclicked="editValue(Mode.UPDATE_OR_DELETE_VALUE, $event)"></b-table>
       </template>
     </div>
   `,
+
+  props: {
+    value: Object
+  },
 
   data: function() {
     return {
       fields: [{key: 'value', sortable: true}],
 
       currentPage: 1,
-      perPage: 15,
+      perPage: 10,
       sortBy: null,
       sortDesc: false,
       search: '',
@@ -125,7 +127,7 @@ Vue.component('r-value-list-view', {
       return this.$confirm('This action will delete "' + value + '"!', 'Delete "' + value + '"?', 'Delete Value')
         .then(() => {
           this.value.value = null;
-          redisService.deleteValue(this.value.connectionLabel, this.value.key, this.value.type, value)
+          return redisService.deleteValue(this.value.connectionLabel, this.value.key, this.value.type, value)
         });
     }
   }

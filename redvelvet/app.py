@@ -1,9 +1,9 @@
-import aioredis
-from collections import OrderedDict
 from os import path
+
+import aioredis
 from sanic import Sanic
 
-from redvelvet import api
+from redvelvet import api, ws
 from redvelvet.config import update_config
 
 
@@ -35,7 +35,8 @@ def register_routes(app):
     app.static('/', path.join(static_dir, 'index.html'))
     app.static('/public/', static_dir)
 
-    app.blueprint(api.get_blueprint(app), url_prefix='/api')
+    app.blueprint(api.blueprint, url_prefix='/api')
+    app.blueprint(ws.blueprint, url_prefix='/ws')
 
 
 async def setup_redis_connections(app, loop):
