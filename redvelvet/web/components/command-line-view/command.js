@@ -1,4 +1,4 @@
-class Node {
+class BufferNode {
   constructor(data, next) {
     this.data = data;
     this.next = next;
@@ -32,11 +32,11 @@ class CommandBuffer {
 
   push(command) {
     if (this._length === 0) {
-      this._front = new Node(command);
+      this._front = new BufferNode(command);
       this._front.next =  this._front;
     }
     else if (this._length >= this._capacity) this._front.next.data = command;
-    else this._front.next = new Node(command, this._front.next);
+    else this._front.next = new BufferNode(command, this._front.next);
 
     this._length++;
     this._front = this._front.next;
