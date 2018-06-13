@@ -1,0 +1,13 @@
+.idea
+.git
+.DS_Store
+__pycache__
+
+build
+dist
+venv3
+*.egg-info
+
+.bumpversion.cfg
+.gitignore
+deploy.sh

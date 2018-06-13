@@ -3,7 +3,7 @@ Vue.component('r-command-line-view', {
     <b-card v-show="hasConnections" no-body class="rounded-0">
       <b-tabs card small class="d-flex flex-column h-100" content-class="flex-grow-1 bg-dark text-white">
         <b-tab v-for="(connection, i) in sortedConnections" :key="connection.label"
-               title-link-class="btn-danger pr-2" class="p-0" active>
+               title-link-class="btn-danger pr-2" class="p-0">
           <template slot="title">
             <span>{{ connection.label }}</span>
             <b-button-close class="pl-2" @click="close(connection.label)"></b-button-close>
@@ -19,7 +19,7 @@ Vue.component('r-command-line-view', {
   data: function() {
     return {
       connections: {}
-    }
+    };
   },
 
   computed: {
