@@ -1,6 +1,6 @@
 from os import path
 
-import aioredis
+from aioredis import create_redis_pool
 from sanic import Sanic
 
 from redvelvet import api, ws
@@ -40,7 +40,7 @@ def register_routes(app):
 
 
 async def setup_redis_connections(app, loop):
-    app.redis_connections = {redis_uri.label: await aioredis.create_redis_pool(redis_uri.uri)
+    app.redis_connections = {redis_uri.label: await create_redis_pool(redis_uri.uri)
                              for redis_uri in app.config.REDIS_URIS}
 
 

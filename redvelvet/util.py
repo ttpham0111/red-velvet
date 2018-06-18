@@ -1,5 +1,7 @@
 from functools import partial
 
+from aioredis import create_redis_pool
+
 
 def decode(value, _encoding='utf-8'):
     try:
@@ -13,6 +15,21 @@ def decode(value, _encoding='utf-8'):
         return decode(value, _encoding='hex')
 
     return value
+
+
+async def reconnect_to_redis(app, connection_label):
+    redis = app.redis_connections[connection_label]
+
+    redis.close()
+    await redis.wait_closed()
+
+    for redis_uri in app.config.REDIS_URIS:
+        if redis_uri.label == connection_label:
+            redis = await create_redis_pool(redis_uri.uri)
+            app.redis_connections[connection_label] = redis
+            break
+
+    return redis
 
 
 def get_redis_get_command(redis, key_type):

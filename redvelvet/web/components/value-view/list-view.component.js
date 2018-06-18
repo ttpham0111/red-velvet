@@ -25,6 +25,7 @@ Vue.component('r-value-list-view', {
                  :current-page="currentPage" :per-page="perPage"
                  :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
                  @row-dblclicked="editValue(Mode.UPDATE_OR_DELETE_VALUE, $event)"></b-table>
+        <p class="text-right">{{ totalRows }} row(s)</p>
       </template>
     </div>
   `,

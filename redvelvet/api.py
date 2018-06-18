@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from functools import wraps
 from urllib.parse import urlparse
 
 from sanic import Blueprint, response
@@ -8,6 +9,23 @@ from redvelvet import util
 
 
 blueprint = Blueprint('API')
+
+
+def with_redis_connection(fn):
+    @wraps(fn)
+    async def wrapper(request, connection_label, *args, **kwargs):
+        try:
+            redis = request.app.redis_connections[connection_label]
+        except KeyError:
+            err = {'error': f'Redis connection label unrecognized: {connection_label}'}
+            return response.json(err, status=HTTPStatus.NOT_FOUND)
+
+        try:
+            return await fn(request, redis, *args, **kwargs)
+        except TimeoutError:
+            redis = await util.reconnect_to_redis(request.app, connection_label)
+            return await fn(request, redis, *args, **kwargs)
+    return wrapper
 
 
 @blueprint.route('/connections', frozenset({'GET'}))
@@ -21,13 +39,8 @@ async def get_connections(request):
 
 
 @blueprint.route('/connections/<connection_label>/keys', frozenset({'GET'}))
-async def get_keys(request, connection_label):
-    try:
-        redis = request.app.redis_connections[connection_label]
-    except KeyError:
-        err = {'error': f'Redis connection label unrecognized: {connection_label}'}
-        return response.json(err, status=HTTPStatus.NOT_FOUND)
-
+@with_redis_connection
+async def get_keys(request, redis):
     keys = []
     futures = []
     pipeline = redis.pipeline()
@@ -40,13 +53,8 @@ async def get_keys(request, connection_label):
 
 
 @blueprint.route('/connections/<connection_label>/keys', frozenset({'POST'}))
-async def create_key(request, connection_label):
-    try:
-        redis = request.app.redis_connections[connection_label]
-    except KeyError:
-        err = {'error': f'Redis connection label unrecognized: {connection_label}'}
-        return response.json(err, status=HTTPStatus.NOT_FOUND)
-
+@with_redis_connection
+async def create_key(request, redis):
     try:
         key = request.json['key']
         key_type = request.json['type']
@@ -68,25 +76,15 @@ async def create_key(request, connection_label):
 
 
 @blueprint.route('/connections/<connection_label>/keys/<key>', frozenset({'DELETE'}))
-async def delete_key(request, connection_label, key):
-    try:
-        redis = request.app.redis_connections[connection_label]
-    except KeyError:
-        err = {'error': f'Redis connection label unrecognized: {connection_label}'}
-        return response.json(err, status=HTTPStatus.NOT_FOUND)
-
+@with_redis_connection
+async def delete_key(request, redis, key):
     await redis.delete(key)
     return response.text('', status=HTTPStatus.NO_CONTENT)
 
 
 @blueprint.route('/connections/<connection_label>/keys/<key>/values', frozenset({'GET'}))
-async def get_values(request, connection_label, key):
-    try:
-        redis = request.app.redis_connections[connection_label]
-    except KeyError:
-        err = {'error': f'Redis connection label unrecognized: {connection_label}'}
-        return response.json(err, status=HTTPStatus.NOT_FOUND)
-
+@with_redis_connection
+async def get_values(request, redis, key):
     try:
         key_type = request.raw_args['type']
     except KeyError:
@@ -102,13 +100,8 @@ async def get_values(request, connection_label, key):
 
 
 @blueprint.route('/connections/<connection_label>/keys/<key>/values', frozenset({'POST'}))
-async def create_value(request, connection_label, key):
-    try:
-        redis = request.app.redis_connections[connection_label]
-    except KeyError:
-        err = {'error': f'Redis connection label unrecognized: {connection_label}'}
-        return response.json(err, status=HTTPStatus.NOT_FOUND)
-
+@with_redis_connection
+async def create_value(request, redis, key):
     try:
         value = request.json['value']
     except KeyError as e:
@@ -133,13 +126,8 @@ async def create_value(request, connection_label, key):
 
 
 @blueprint.route('/connections/<connection_label>/keys/<key>/values/<value>', frozenset({'DELETE'}))
-async def delete_key(request, connection_label, key, value):
-    try:
-        redis = request.app.redis_connections[connection_label]
-    except KeyError:
-        err = {'error': f'Redis connection label unrecognized: {connection_label}'}
-        return response.json(err, status=HTTPStatus.NOT_FOUND)
-
+@with_redis_connection
+async def delete_key(request, redis, key, value):
     try:
         key_type = request.raw_args['type']
     except KeyError:

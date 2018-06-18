@@ -1,8 +1,10 @@
 Vue.component('r-command-line-view', {
   template: `
     <b-card v-show="hasConnections" no-body class="rounded-0">
-      <b-tabs card small class="d-flex flex-column h-100" content-class="flex-grow-1 bg-dark text-white">
-        <b-tab v-for="(connection, i) in sortedConnections" :key="connection.label"
+      <b-tabs v-model="activeTab" card small
+              class="d-flex flex-column h-100" content-class="flex-grow-1 bg-dark text-white">
+        <!-- Not using key on purpose to force re-render of new sort order-->
+        <b-tab v-for="(connection, i) in sortedConnections"
                title-link-class="btn-danger pr-2" class="p-0">
           <template slot="title">
             <span>{{ connection.label }}</span>
@@ -18,7 +20,8 @@ Vue.component('r-command-line-view', {
 
   data: function() {
     return {
-      connections: {}
+      connections: {},
+      activeTab: 0
     };
   },
 
@@ -30,7 +33,7 @@ Vue.component('r-command-line-view', {
     sortedConnections: function() {
       return Object.values(this.connections).sort((a, b) => {
         if (a.label < b.label) return -1;
-        if (a.label < b.label) return 1;
+        if (a.label > b.label) return 1;
         return 0;
       });
     }
@@ -39,6 +42,9 @@ Vue.component('r-command-line-view', {
   methods: {
     show: function(connection) {
       this.$set(this.connections, connection.label, connection);
+      this.$nextTick(() => {
+        this.activeTab = this.sortedConnections.indexOf(connection);
+      });
     },
 
     close: function(connectionLabel) {

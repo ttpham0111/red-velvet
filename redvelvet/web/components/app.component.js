@@ -51,7 +51,7 @@ Vue.component('r-app', {
 
     showValueTab: function(connectionLabel, key) {
       const keyData = {connectionLabel: connectionLabel, key: key};
-      this.$refs.valueView.getValue(keyData);
+      this.$refs.valueView.getValue(keyData, true);
     },
 
     deleteValueTab: function(connectionLabel, keys) {
