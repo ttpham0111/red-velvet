@@ -23,6 +23,13 @@ Configurations are done through environmental variables
 - `PORT`: [OPTIONAL] (Default: 8000) The port of the server
 - `NUM_WORKERS`: [OPTIONAL] (Default: 1) The number of workers to start up
 - `REDIS_URIS`: Comma separated list of [redis URIs](https://metacpan.org/pod/URI::redis).
+  - \<label>::\<protocol>://:\<password>@\<host>:\<port>/\<db>
+  - `label`: Name for the connection
+  - `protocol`: `redis` or `rediss` (SSL enabled)
+  - `password`: [OPTIONAL] Password for connecting to redis
+  - `host`: Redis host
+  - `port`: Redis port
+  - `db`: [OPTIONAL] (Default: 0) Redis DB
 
 ## Docker
 ```bash
