@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='red-velvet',
-    version='0.0.3',
+    version='0.0.4',
     description='Redis Viewer Web UI',
     url='https://github.com/ttpham0111/red-velvet',
 
