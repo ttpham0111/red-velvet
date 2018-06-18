@@ -1,13 +1,23 @@
 Vue.component('r-command-line-prompt', {
   template: `
     <b-form class="command-line-prompt" @submit="onSubmit">
-      <input ref="prompt" type="text" v-model="command" class="w-100" />
+      <input ref="prompt" type="text" v-model="command" class="w-100"
+             @keydown.up="command = history.prev()"
+             @keydown.down="command = history.next()" />
     </b-form>
   `,
 
+  props: {
+    historyBufferSize: {
+      type: Number,
+      default: 50
+    }
+  },
+
   data: function() {
     return {
-      command: ''
+      command: '',
+      history: new CommandHistory(this.historyBufferSize)
     }
   },
 
@@ -19,6 +29,7 @@ Vue.component('r-command-line-prompt', {
     onSubmit: function() {
       if (this.command) {
         this.$emit('submit', this.command);
+        this.history.push(this.command);
         this.command = '';
       }
     }
